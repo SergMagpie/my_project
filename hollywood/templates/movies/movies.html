@@ -1,0 +1,18 @@
+<html>
+
+<head>
+
+</head>
+
+<body>
+    {% for move in movies %}
+    <p>
+        <a href='{{move.pk}}/'>
+            {{move.name}}
+        </a>
+
+    </p>
+    {% endfor %}
+</body>
+
+</html>

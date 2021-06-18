@@ -2,7 +2,7 @@ from django.http.response import HttpResponse
 from django.shortcuts import render, redirect
 from .models import Movie, Genre
 from datetime import date
-from .forms import AddMovieForm
+from .forms import *
 
 from actors.models import Actor
 from django.views.generic import CreateView
@@ -32,6 +32,9 @@ def movies(request):
     context = {'movies': Movie.objects.all()}
     return render(request, 'movies/movies.html', context)
 
+def index(request):
+    return render(request, 'movies/index.html')
+
 
 
 def movies_numb(request, numb):
@@ -39,31 +42,30 @@ def movies_numb(request, numb):
     return render(request, 'movies/moves_numb.html', context)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 def add_actor(request):
-    mell = Actor.objects.get(first_name="Mell")
-    mell.movies.all()
-    new_movie = Movie(name="Lalaland", year=date(2019, 2, 4), genre=Genre.objects.get(pk=1))
-    new_movie.save()
-    new_movie.actors.add(mell)
-    new_movie.save()
-    return HttpResponse("Mell was added")
+    if request.method == "POST":
+        form = AddActorForm(request.POST)
+        if form.is_valid():
+            actor = form.save(commit=False)
+            actor.save()
+            return HttpResponse("<h3>Actor was saved</h3>")
+        print(form.errors)
+        return HttpResponse("<h3>Error</h3>")
+    else:
+        form = AddActorForm()
+        context = {'form': form}
+        return render(request, 'movies/create_actor_form.html', context)
+
+def add_genre(request):
+    if request.method == "POST":
+        form = AddGenreForm(request.POST)
+        if form.is_valid():
+            genre = form.save(commit=False)
+            genre.save()
+            return HttpResponse("<h3>Genre was saved</h3>")
+        print(form.errors)
+        return HttpResponse("<h3>Error</h3>")
+    else:
+        form = AddGenreForm()
+        context = {'form': form}
+        return render(request, 'movies/create_genre_form.html', context)

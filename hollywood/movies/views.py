@@ -46,7 +46,7 @@ def movie_change(request, numb):
         movie = Movie.objects.get(pk=numb)
         form = AddMovieForm(instance=movie)
         context = {'form': form}
-        return render(request, 'movies/create_movie_form.html', context)
+        return render(request, 'movies/change_movie_form.html', context)
 
 
 def movies(request):

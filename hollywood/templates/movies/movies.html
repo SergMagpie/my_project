@@ -1,5 +1,8 @@
 {% extends 'movies/base.html' %} {% block content %}
-<table>
+<p></p>
+<h3>Table of movies</h3>
+</p>
+<table class="table">
     {% for move in movies %}
     <tr>
         <td>{{move.pk}}.</td>

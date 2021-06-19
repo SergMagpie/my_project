@@ -1,11 +1,18 @@
 {% load static %}
+<!doctype html>
 <html>
 
 <head>
+    <meta charset="utf-8">
+    <title>{% block title %}Hollywood{% endblock %}</title>
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> -->
+    {% block stylesheet %}{% endblock %}
 </head>
 
 <body>
+    {% block body %}
     <div class="hamburger-menu">
         <input id="menu__toggle" type="checkbox" />
         <label class="menu__btn" for="menu__toggle">
@@ -20,9 +27,11 @@
             <li><a class="menu__item" href="{% url 'home' %}">home</a></li>
         </ul>
     </div>
+    {% block breadcrumb %} {% endblock %}
+    <br>
 
     <!-- <img src="{% static 'image/maxresdefault.jpg' %}" alt="My image"> -->
-    {% block content %} {% endblock %}
+    {% block content %} {% endblock %} {% endblock body %}
 </body>
 
 </html>

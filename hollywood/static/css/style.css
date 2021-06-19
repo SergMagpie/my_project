@@ -116,21 +116,11 @@
 
 /* Background image */
 
-
-/* 
 body {
-    background-image: url("../image/maxresdefault.jpg");
+    /* background-image: url("../image/maxresdefault.jpg"); */
     /* Путь к фоновому изображению */
-
-
-/* background-color: #000000; */
-
-
-/* Цвет фона */
-
-
-/* background-repeat: no-repeat;
+    background-color: #4ff0fc;
+    /* Цвет фона */
+    /* background-repeat: no-repeat;
     background-size: 100%; */
-
-
-/* } */
+}

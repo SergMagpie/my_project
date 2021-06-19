@@ -1,18 +1,22 @@
-<html>
-
-<head>
-
-</head>
-
-<body>
+{% extends 'movies/base.html' %} {% block content %}
+<table>
     {% for move in movies %}
-    <p>
-        <a href='{{move.pk}}/'>
-            {{move.name}}
+    <tr>
+        <td>{{move.pk}}.</td>
+        <td> {{move.name}}</td>
+        <td>
+            <a href='{{move.pk}}/'>
+            show
         </a>
+        </td>
+        <td>
+            <a href='{{move.pk}}/change/'>
+            change
+        </a>
+        </td>
 
-    </p>
+
+    </tr>
     {% endfor %}
-</body>
-
-</html>
+</table>
+{% endblock %}

@@ -1,27 +1,8 @@
-<html>
-
-<head>
-
-</head>
-
-<body>
-
-    <p>
-        <a href="admin/">"admin/"</a>
-    </p>
-    <p>
-        <a href="add-mell/">"add-mell/"</a>
-    </p>
-    <p>
-        <a href="add-genre/">"add-genre/"</a>
-    </p>
-    <p>
-        <a href="add-movie/">"add-movie/"</a>
-    </p>
-    <p>
-        <a href="movies/">"movies/"</a>
-    </p>
-
-</body>
-
-</html>
+ {% extends 'movies/base.html' %}
+<!--  -->
+{% load static %}
+<!--  -->
+{% block content %}
+<img src="{% static 'image/maxresdefault.jpg' %}" alt="My image" style="width:100%;height:100%;">
+<!--  -->
+{% endblock %}

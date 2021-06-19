@@ -7,6 +7,7 @@ from .forms import *
 from actors.models import Actor
 from django.views.generic import CreateView
 from django.utils import timezone
+
 # Create your views here.
 
 
@@ -16,7 +17,9 @@ def movie_new(request):
         if form.is_valid():
             movie = form.save(commit=False)
             movie.created_at = timezone.now()
+            # print(movie, '***', movie.__dict__)
             movie.save()
+            form.save_m2m()
             return redirect(f"/movies/{movie.pk}")
             # HttpResponse("<h3>Movie was saved</h3>")
         print(form.errors)
@@ -26,15 +29,33 @@ def movie_new(request):
         context = {'form': form}
         return render(request, 'movies/create_movie_form.html', context)
 
+def movie_change(request, numb):
+    if request.method == "POST":
+        form = AddMovieForm(request.POST)
+        if form.is_valid():
+            movie = form.save(commit=False)
+            movie.created_at = timezone.now()
+            movie.pk = numb
+            movie.save()
+            form.save_m2m()
+            return redirect(f"/movies/{movie.pk}")
+            # HttpResponse("<h3>Movie was saved</h3>")
+        print(form.errors)
+        return HttpResponse("<h3>Error</h3>")
+    else:
+        movie = Movie.objects.get(pk=numb)
+        form = AddMovieForm(instance=movie)
+        context = {'form': form}
+        return render(request, 'movies/create_movie_form.html', context)
 
 
 def movies(request):
     context = {'movies': Movie.objects.all()}
     return render(request, 'movies/movies.html', context)
 
+
 def index(request):
     return render(request, 'movies/index.html')
-
 
 
 def movies_numb(request, numb):
@@ -55,6 +76,7 @@ def add_actor(request):
         form = AddActorForm()
         context = {'form': form}
         return render(request, 'movies/create_actor_form.html', context)
+
 
 def add_genre(request):
     if request.method == "POST":

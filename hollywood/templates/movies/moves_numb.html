@@ -1,17 +1,22 @@
-<html>
+{% extends 'movies/base.html' %} {% block content %}
 
-<head>
+<p>
 
-</head>
+    {{move.name}}<br>
+    <!--  -->
+    {{move.year}} <br>
+    <!--  -->
+    {{move.genre }}<br>
+    <!--  -->
+    {% for actor in move.actors.all %}
+    <!--  -->
+    {{actor.first_name}} {{actor.last_name}},
+    <!--  -->
+    {% endfor %}
 
-<body>
+    <br>
+    <!--  -->
+    {{move.created_at}} <br>
 
-    <p>
-
-        {{move.name}}<br> {{move.year}} <br> {{move.genre }}<br> {{move.actors}} <br> {{move.created_at}} <br>
-
-    </p>
-
-</body>
-
-</html>
+</p>
+{% endblock %}

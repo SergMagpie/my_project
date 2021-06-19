@@ -1,0 +1,28 @@
+{% load static %}
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+    <div class="hamburger-menu">
+        <input id="menu__toggle" type="checkbox" />
+        <label class="menu__btn" for="menu__toggle">
+            <span></span>
+        </label>
+        <ul class="menu__box">
+            <li><a class="menu__item" href="/admin/">admin</a></li>
+            <li><a class="menu__item" href="{% url 'add_actor' %}">add-actor</a></li>
+            <li><a class="menu__item" href="{% url 'add_genre' %}">add-genre</a></li>
+            <li><a class="menu__item" href="{% url 'add_movie' %}">add-movie</a></li>
+            <li><a class="menu__item" href="{% url 'movies' %}">movies</a></li>
+            <li><a class="menu__item" href="{% url 'home' %}">home</a></li>
+        </ul>
+    </div>
+
+    <!-- <img src="{% static 'image/maxresdefault.jpg' %}" alt="My image"> -->
+    {% block content %} {% endblock %}
+</body>
+
+</html>

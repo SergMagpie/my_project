@@ -1,13 +1,10 @@
 from django.urls import path
-from .views import *
-from .forms import *
+from .views import add_actor, movie_new, feedback_view, index, MovieListView, movies_list, movie_added_me
 
 urlpatterns = [
-    path("add-actor/", add_actor, name='add_actor'),
-    path("add-genre/", add_genre, name='add_genre'),
-    path("add-movie/", movie_new, name='add_movie'),
-    path("movies/", movies, name='movies'),
-    path("movies/<int:numb>/", movies_numb, name='movies_numb'),
-    path("movies/<int:numb>/change/", movie_change, name='movie_change'),
-    path("", index, name='home'),
+    path("", index),
+    path("add-movie", movie_new, name="add-movie"),
+    path("movie-list", movies_list, name="movie-list"),
+    path("feedback", feedback_view),
+    path("movie-added-me", movie_added_me, name="movie-added-me"),
 ]

@@ -1,8 +1,8 @@
- {% extends 'movies/base.html' %}
-<!--  -->
-{% load static %}
-<!--  -->
-{% block content %}
-<img src="{% static 'image/maxresdefault.jpg' %}" alt="My image" style="width:100%;height:100%;">
-<!--  -->
+{% extends 'base_template.html' %} {% block content %}
+<h2>Головна сторінка сайту Hollywood</h2>
+<ul>
+    <li><a href="{% url 'movie-list' %}">Всі фільми</a></li>
+    <li><a href="{% url 'add-movie' %}">Додати новий фільм</a></li>
+    <li><a href="{% url 'movie-added-me' %}">Фільми додані мною</a></li>
+</ul>
 {% endblock %}

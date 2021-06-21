@@ -1,93 +1,103 @@
+from django.forms import models
 from django.http.response import HttpResponse
 from django.shortcuts import render, redirect
 from .models import Movie, Genre
 from datetime import date
-from .forms import *
+from .forms import AddMovieForm, FeedbackForm
 
+from django.contrib.auth.decorators import login_required
+from django.views.generic import ListView
 from actors.models import Actor
-from django.views.generic import CreateView
 from django.utils import timezone
-
 # Create your views here.
 
+class MovieListView(ListView):
+    model = Movie
+    context_object_name = 'movies'
 
+def movies_list(request):
+    return render(request, 'movies/movies_list.html', {'movies': Movie.objects.all()})
+
+def feedback_view(request):
+    if request.method == "POST":
+        form = FeedbackForm(request.POST)
+        if form.is_valid():
+            return HttpResponse("<p>Thx you for your feedback</p>")
+        else:
+            return HttpResponse(form.errors)
+    else:
+        return render(request, 'movies/feedback.html', {'form': FeedbackForm()})
+
+
+def index(request):
+    return render(request, 'movies/index.html')
+
+@login_required
 def movie_new(request):
     if request.method == "POST":
         form = AddMovieForm(request.POST)
         if form.is_valid():
             movie = form.save(commit=False)
             movie.created_at = timezone.now()
-            # print(movie, '***', movie.__dict__)
+            movie.user = request.user
             movie.save()
-            form.save_m2m()
-            return redirect(f"/movies/{movie.pk}")
-            # HttpResponse("<h3>Movie was saved</h3>")
+            return HttpResponse("<h3>Movie was saved</h3>")
         print(form.errors)
         return HttpResponse("<h3>Error</h3>")
     else:
         form = AddMovieForm()
-        context = {'form': form}
+        movies = Movie.objects.all()
+        context = {'form': form, 'objects': movies}
         return render(request, 'movies/create_movie_form.html', context)
 
-def movie_change(request, numb):
-    if request.method == "POST":
-        form = AddMovieForm(request.POST)
-        if form.is_valid():
-            movie = form.save(commit=False)
-            movie.created_at = timezone.now()
-            movie.pk = numb
-            movie.save()
-            form.save_m2m()
-            return redirect(f"/movies/{movie.pk}")
-            # HttpResponse("<h3>Movie was saved</h3>")
-        print(form.errors)
-        return HttpResponse("<h3>Error</h3>")
-    else:
-        movie = Movie.objects.get(pk=numb)
-        form = AddMovieForm(instance=movie)
-        context = {'form': form}
-        return render(request, 'movies/change_movie_form.html', context)
+@login_required
+def movie_added_me(request):
+    return render(request, 'movies/movies_list.html', {'movies': Movie.objects.all().filter(user=request.user)})
+    # if request.method == "POST":
+    #     form = AddMovieForm(request.POST)
+    #     if form.is_valid():
+    #         movie = form.save(commit=False)
+    #         movie.created_at = timezone.now()
+    #         movie.user = request.user
+    #         movie.save()
+    #         return HttpResponse("<h3>Movie was saved</h3>")
+    #     print(form.errors)
+    #     return HttpResponse("<h3>Error</h3>")
+    # else:
+    #     form = AddMovieForm()
+    #     movies = Movie.objects.all()
+    #     context = {'form': form, 'objects': movies}
+    #     return render(request, 'movies/create_movie_form.html', context)
 
 
-def movies(request):
-    context = {'movies': Movie.objects.all()}
-    return render(request, 'movies/movies.html', context)
 
 
-def index(request):
-    return render(request, 'movies/index.html')
 
 
-def movies_numb(request, numb):
-    context = {'move': Movie.objects.get(pk=numb)}
-    return render(request, 'movies/moves_numb.html', context)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 def add_actor(request):
-    if request.method == "POST":
-        form = AddActorForm(request.POST)
-        if form.is_valid():
-            actor = form.save(commit=False)
-            actor.save()
-            return HttpResponse("<h3>Actor was saved</h3>")
-        print(form.errors)
-        return HttpResponse("<h3>Error</h3>")
-    else:
-        form = AddActorForm()
-        context = {'form': form}
-        return render(request, 'movies/create_actor_form.html', context)
-
-
-def add_genre(request):
-    if request.method == "POST":
-        form = AddGenreForm(request.POST)
-        if form.is_valid():
-            genre = form.save(commit=False)
-            genre.save()
-            return HttpResponse("<h3>Genre was saved</h3>")
-        print(form.errors)
-        return HttpResponse("<h3>Error</h3>")
-    else:
-        form = AddGenreForm()
-        context = {'form': form}
-        return render(request, 'movies/create_genre_form.html', context)
+    mell = Actor.objects.get(first_name="Mell")
+    mell.movies.all()
+    new_movie = Movie(name="Lalaland", year=date(2019, 2, 4), genre=Genre.objects.get(pk=1))
+    new_movie.save()
+    new_movie.actors.add(mell)
+    new_movie.save()
+    return HttpResponse("Mell was added")

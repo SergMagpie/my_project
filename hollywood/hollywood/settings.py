@@ -20,7 +20,7 @@ import os
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-)^a9gf6ygm7on+kpvz%^r@os%*7p=01o+=1k^os_2cy(sytuc#'
+SECRET_KEY = 'django-insecure-)^a9gf6ygm7on+kpvz%^  @os%*7p=01o+=1k^os_2cy(sytuc#'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -116,7 +116,8 @@ USE_L10N = True
 
 USE_TZ = True
 
-
+LOGIN_REDIRECT_URL = '/' # Redirect after login 
+LOGIN_URL = '/auth/login'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
@@ -126,7 +127,3 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),    
-]
